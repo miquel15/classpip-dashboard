@@ -153,6 +153,15 @@ export class ComServerService {
 
   }
 
+
+
+  //MÉTODOS NECESARIOS, PARA LA INTERACCIÓN DASHBOARD-SERVER, EN LA MODALIDAD KAHOOT
+
+  //Función para iniciar el juego de Kahoot
+  public EmpezarJuegoKahoot(grupoDestinatarioId: number) {
+    console.log ('Empieza el juego');
+    this.socket.emit ('empezarKahoot', {grupoId: grupoDestinatarioId});
+  }
   //Función para testeo conexión a servidor
   public AvanzarPregunta(grupoDestinatarioId: number) {
     // Cuando apretemos el boton, queremos que avance a la siguiente pregunta en el mv.
@@ -160,7 +169,6 @@ export class ComServerService {
     this.socket.emit ('avanzarPregunta', {grupoId: grupoDestinatarioId});
   }
 
-  //MÉTODOS NECESARIOS, PARA LA INTERACCIÓN DASHBOARD-SERVER, EN LA MODALIDAD KAHOOT
 
   public EsperoRespuestasCuestionarioKahoot(): any  {
     return Observable.create((observer) => {

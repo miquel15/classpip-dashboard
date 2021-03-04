@@ -78,7 +78,7 @@ export class JuegoDeCuestionarioKahootSeleccionadoActivoComponent implements OnI
   //Para abrir la ventana de juego de Kahoot
 
   IniciarJuegoKahoot() {
-
+    this.comServer.EmpezarJuegoKahoot(this.juegoSeleccionado.grupoId);
     console.log("Iniciamos navegación");
     this.route.navigate (['grupo/' + this.juegoSeleccionado.profesorId+ '/juegos/juegoSeleccionadoActivo/gestionarPreguntaKahoot']);
   }

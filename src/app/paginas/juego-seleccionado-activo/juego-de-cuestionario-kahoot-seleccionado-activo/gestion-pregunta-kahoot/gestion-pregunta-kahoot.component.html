@@ -1,22 +1,96 @@
 <div class="titulo">Classpip. Modalidad Kahoot</div>
-<div class = "contenedor">
-  <div class = "enColumna">
+<div class = "contenedor" *ngIf = "cargandoPregunta">
+  <div class = "cuentaAtras">{{segundosCarga}}</div>
+  <div class = "enunciadoPregunta">{{preguntaCargada.Pregunta}}</div>
+</div>
+
+<div class = "contenedor" *ngIf = "!cargandoPregunta">
+  <!-- Mostramos: Título, Segundos Restantes, Imagen y Respuestas 
+       Condición: Debe quedar tiempo de respuesta y no haber contestado todos los alumnos
+  -->
+  <div class = "enColumna" *ngIf = "segundosRespuesta !== 0 && isDisabled">
     <div *ngIf = "preguntaCargada">
       <!--TITULO PREGUNTA-->
-      <div>{{preguntaCargada.Pregunta}}</div>
-      <!--IMAGEN PREGUNTA-->
-      <img #img *ngIf="imagenPregunta" mat-card-image [src]="imagenPregunta">
-      <!--DOS PRIMERAS RESPUESTAS-->
-      <div class = "enFila">
-        <button type="button"  class="btn Eliminar" >{{preguntaCargada.RespuestaCorrecta}}</button>
-        <button type="button"  class="btn Aceptar">{{preguntaCargada.RespuestaIncorrecta1}}</button>
+      <div class = "contenedorPreguntaKahoot">
+        <div class = "cuentaAtras">{{segundosRespuesta}}</div>
+        <div class = "enunciadoPregunta">{{preguntaCargada.Pregunta}}</div>
       </div>
-      <!--DOS RESPUESTAS RESTANTES-->
-      <div class = "enFila">
-        <button type="button"  class="btn Eliminar" >{{preguntaCargada.RespuestaIncorrecta2}}</button>
-        <button type="button"  class="btn Aceptar">{{preguntaCargada.RespuestaIncorrecta3}}</button>
+      <!--IMAGEN PREGUNTA-->
+      <div class = "contenedorImagenKahoot">
+        <!--<img #img *ngIf="imagenPregunta" mat-card-image [src]="imagenPregunta">-->
+      </div>
+      <div class ="contenedorRespuestasKahoot">
+      <!--DOS PRIMERAS RESPUESTAS-->
+        <div class = "enFila">
+          <button type="button"  class="btn Eliminar" >{{preguntaCargada.RespuestaCorrecta}}</button>
+          <button type="button"  class="btn Next">{{preguntaCargada.RespuestaIncorrecta1}}</button>
+        </div>
+        <!--DOS RESPUESTAS RESTANTES-->
+        <div class = "enFila">
+          <button type="button"  class="btn Back" >{{preguntaCargada.RespuestaIncorrecta2}}</button>
+          <button type="button"  class="btn Aceptar">{{preguntaCargada.RespuestaIncorrecta3}}</button>
+        </div>
       </div>
     </div>
-    <button (click)="Siguiente()">Siguiente Pregunta</button>
   </div>
+
+  <!-- Mostramos: Gráfico, Tabla de clasificación y Boton para avanzar pregunta
+       Condición: Debe haberse terminado el tiempo de respuesta o haber contestado todos los alumnos
+  -->
+  <div class = "enColumna" *ngIf = "segundosRespuesta === 0 || !isDisabled">
+     
+    <div class = "enFila">
+      <div style = "width : 50%" echarts [options]="donut"  theme="macarons" class="demo-chart"></div>
+      <div style = "width : 50%" >
+        <!--    En esta tabla queremos mostrar los alumnos conectados-->
+        <table align="center"  mat-table [dataSource]="dataSourceRankingAlumnos" class="mat-elevation-z8" *ngIf= "!tablaIsDisabled">
+          <!-- Nombre Alumno Column -->
+          <ng-container matColumnDef="nombreAlumno">
+            <th mat-header-cell *matHeaderCellDef class="tituloColumnaTabla"  align="center">Nombre</th>
+            <td mat-cell  *matCellDef="let item">
+              <p>{{item.nombreAlumno}} </p>
+            </td>
+
+          </ng-container>
+
+          <!-- Primer Apellido Column -->
+          <ng-container matColumnDef="primerApellido">
+              <th mat-header-cell *matHeaderCellDef class="tituloColumnaTabla" align="center">Primer Apellido</th>
+              <td mat-cell  *matCellDef="let item">
+                <p >{{item.primerApellido}} </p>
+              </td>
+          </ng-container>
+
+          <!-- Segundo Apellido Column -->
+          <ng-container matColumnDef="segundoApellido">
+              <th mat-header-cell *matHeaderCellDef class="tituloColumnaTabla" align="center">Segundo Apellido</th>
+              <td mat-cell  *matCellDef="let item">
+                <p >{{item.segundoApellido}} </p>
+              </td>
+          </ng-container>
+
+          <ng-container matColumnDef="puntos">
+            <th mat-header-cell *matHeaderCellDef class="tituloColumnaTabla">Puntos</th>
+            <td mat-cell style= "text-align: right" *matCellDef="let item">
+              <p>{{item.puntos}}</p>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="puntosTotales">
+            <th mat-header-cell *matHeaderCellDef class="tituloColumnaTabla">Puntos Totales</th>
+            <td mat-cell style= "text-align: right" *matCellDef="let item">
+              <p>{{item.puntosTotales}}</p>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsRankingAlumnos"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsRankingAlumnos;"></tr>
+        </table>
+      </div>
+    </div>
+    
+    <div>
+      <button [disabled]="isDisabled"(click)="Siguiente(); opcion = empty">Siguiente Pregunta</button>
+    </div>
+  </div>  
 </div>

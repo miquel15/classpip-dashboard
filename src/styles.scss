@@ -663,3 +663,38 @@ span.avatar5col {
   filter: drop-shadow(5px 5px 5px #222222);
   opacity: .5;
 }
+
+// Para la modalidad Kahoot del juego de cuestionarios
+
+.contenedorPreguntaKahoot{
+  width: 100vh;
+  height: 20vh;
+  border-bottom: double;
+  background-color: rgb(24, 137, 236);
+}
+.contenedorImagenKahoot{
+  width: 100vh;
+  height: 55vh;
+  border-left: solid;
+  border-right: solid;
+  border-bottom: double;
+  object-fit: contain;
+}
+.contenedorRespuestasKahoot{
+  width: 100vh;
+  height:25vh;
+  background-color: rgb(192, 28, 36);
+}
+.enunciadoPregunta{
+  width: 100%;
+  color: #0c0c0c;
+  text-align: center;
+  font-family: 'sans-serif';
+  font-size: 4vw;
+}
+.cuentaAtras{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+}
